@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="SDK">
+      <UniqueIdentifier>{1677798e-a323-452e-b2ee-68cde9bfbb06}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CheatBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ld32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Process.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PrintValue.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Offsets.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SDK\types.h" />
+    <ClInclude Include="SDK\model.h" />
+    <ClInclude Include="SDK\geom.h" />
+    <ClInclude Include="SDK\entity.h" />
+    <ClInclude Include="SDK\tools.h" />
+    <ClInclude Include="SDK\weapon.h" />
+    <ClInclude Include="SDK\protocol.h" />
+    <ClInclude Include="ld32.h" />
+    <ClInclude Include="Hook.h" />
+    <ClInclude Include="def.h" />
+  </ItemGroup>
+</Project>
