@@ -1,35 +1,46 @@
 #include <iostream>
 #include <Windows.h>
-#include "PrintValue.h"
-#include "Process.h"
-using namespace std;
+#include "SDK.h"
+#include "mem.h"
+#include "def.h"
 
-const wchar_t* procName = L"ac_client.exe";
+const wchar_t* modName = L"ac_client.exe";
 
-int main() {
-	try {
-		Process game = Process(procName);
+DWORD WINAPI mainThread(HANDLE hModule) {
+	while (true) {
+		byte* ac_client = (byte*)GetModuleHandle(modName);
+		printAdr("ac_client", ac_client);
 
-		DWORD procId = game.getProcId();
-		printHex("procId", procId);
+		playerent* localPlayer = *(playerent**)(ac_client + 0x10F4F4);
+		printAdr("localPlayer", localPlayer);
 
-		uintptr_t moduleBase = game.getModuleBaseAddress(procName);
-		printHex("moduleBase", moduleBase);
-
-		uintptr_t pLocalPlayer = moduleBase + 0x10F4F4;
-		printHex("pLocalPlayer", pLocalPlayer);
-
-		uintptr_t pAmmo = game.resolvePointer(pLocalPlayer, { 0x374, 0x14, 0x0 });
-		printHex("pAmmo", pAmmo);
-
-		int ammo = game.read<int>(pAmmo);
-		printDec("*pAmmo", ammo);
+		int* ammo = localPlayer->weaponsel->ammo;
+		printDec("ammo", ammo);
 
 		cout << "Changing ammo..." << endl;
-		game.write<int>(pAmmo, 1337);
-
-		ammo = game.read<int>(pAmmo);
-		printDec("*pAmmo", ammo);
+		*ammo = 1337;
+		printDec("ammo", ammo);
 	}
-	catch (wstring err) { wcout << err; };
+	return 0;
+}
+
+
+BOOL APIENTRY DllMain(HMODULE hModule,
+	DWORD  ul_reason_for_call,
+	LPVOID lpReserved
+)
+{
+	switch (ul_reason_for_call)
+	{
+	case DLL_PROCESS_ATTACH:
+	{
+		HANDLE handle = CreateThread(nullptr, 0, mainThread, hModule, 0, nullptr);
+		if (handle) CloseHandle(handle);
+		break;
+	}
+	case DLL_THREAD_ATTACH: break;
+	case DLL_THREAD_DETACH: break;
+	case DLL_PROCESS_DETACH: break;
+	}
+	return TRUE;
 }

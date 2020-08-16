@@ -5,7 +5,6 @@
 #include "ld32.h"
 
 #define isRet(oc) oc == 0xC3 || oc == 0xCB || oc == 0xC2 || oc == 0xCA
-#define calcJump(src, dst) dst - (src + 5) 
 
 class hook {
 public:
@@ -18,7 +17,7 @@ public:
 	:
 		len ( calcLength(oFun) ),
 		oBytes ( copyBytes(oFun, len) ),
-		nBytes ( copyBytes(hkFun, len) ),
+		nBytes ( createJump(oFun, hkFun) ),
 		gateway ( createGateway(oFun, len) ) 
 	{}
 	
@@ -41,6 +40,12 @@ private:
 	byte* oFun;
 	byte* gateway;
 	
+	byte* createJump(const byte* from, const byte* to) {
+		byte* buffer = new byte[len];
+		buffer[0] = 0xE9;
+		*(uintptr_t*)(buffer + 1) = to - (from + 5);
+	}
+
 	size_t calcLength(const byte* oFun) {
 		size_t len = 0;
 		while ((len += length_disasm(oFun)) < 5);
@@ -59,8 +64,7 @@ private:
 		byte* gateway = (byte*)VirtualAlloc(NULL, len + 5, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 		if (gateway == 0) throw "Could not allocate memory for gateway";
 		memcpy(gateway, oFun, len);
-		*(gateway + len) = 0xE9;
-		*(dword*)(gateway + len + 1) = calcJump(gateway, oFun);
+		byte* jump = createJump(gateway, oFun);
 		return gateway;
 	}
 };

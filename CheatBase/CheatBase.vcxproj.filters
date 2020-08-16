@@ -20,26 +20,20 @@
     <ClCompile Include="ld32.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Process.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PrintValue.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Offsets.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SDK\types.h" />
-    <ClInclude Include="SDK\model.h" />
-    <ClInclude Include="SDK\geom.h" />
-    <ClInclude Include="SDK\entity.h" />
-    <ClInclude Include="SDK\tools.h" />
-    <ClInclude Include="SDK\weapon.h" />
-    <ClInclude Include="SDK\protocol.h" />
     <ClInclude Include="ld32.h" />
     <ClInclude Include="Hook.h" />
     <ClInclude Include="def.h" />
+    <ClInclude Include="mem.h" />
+    <ClInclude Include="SDK.h" />
+    <ClInclude Include="Console.h" />
+    <ClInclude Include="geom.h" />
   </ItemGroup>
 </Project>
