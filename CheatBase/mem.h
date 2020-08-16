@@ -4,6 +4,6 @@
 namespace mem
 {
 
-	uintptr_t resolvePointer(uintptr_t addr, arr<uint> offsets);
+	uintptr_t resolvePointer(uintptr_t addr, Array<uint> offsets);
 
 }

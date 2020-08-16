@@ -35,5 +35,7 @@
     <ClInclude Include="SDK.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="geom.h" />
+    <ClInclude Include="Patch.h" />
+    <ClInclude Include="Array.h" />
   </ItemGroup>
 </Project>

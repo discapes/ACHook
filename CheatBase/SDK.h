@@ -26,6 +26,7 @@ public:
 class playerent
 {
 public:
+	char pad_0000[4]; //0x0000
 	Vector3 o; //0x0004 physent
 	Vector3 vel; //0x0010
 	Vector3 vel_t; //0x001C
@@ -71,6 +72,7 @@ public:
 	int lastanimswitchtime[2]; //0x00E0
 	void* lastmodel[2]; //0x00E8
 	int lastrendered; //0x00F0
+	char pad_00F4[4]; //0x00F4
 	int health; //0x00F8 playerstate
 	int armor; //0x00FC
 	int primary; //0x0100
@@ -134,15 +136,12 @@ public:
 	bool ignored; //0x0414
 	bool muted; //0x0415
 	bool nocorpse; //0x0416
-
-	virtual void tildeworldobject();
-	virtual void oncollision();
-	virtual void onmoved();
 }; //Size: 0x0417
 
 class weapon
 {
 public:
+	char pad_0000[4]; //0x0000
 	int type; //0x0004
 	class playerent* owner; //0x0008
 	class guninfo* info; //0x000C
@@ -152,17 +151,6 @@ public:
 	int shots; //0x001C
 	int reloading; //0x0020
 	int lastaction; //0x0024
-
-	virtual void Function0();
-	virtual void Function1();
-	virtual void Function2();
-	virtual void Function3();
-	virtual void Function4();
-	virtual void Function5();
-	virtual void Function6();
-	virtual void Function7();
-	virtual void Function8();
-	virtual void Function9();
 }; //Size: 0x0028
 
 class guninfo
