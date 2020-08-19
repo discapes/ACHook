@@ -8,6 +8,7 @@
 #include <corecrt_math.h>
 #include "def.h"
 
+#pragma warning( disable : 4244 )
 struct vec
 {
     union
@@ -400,3 +401,4 @@ struct glmatrixf
         v[15] = 1;
     }
 };
+#pragma warning( default: 4244 )

@@ -1,5 +1,7 @@
 #ifndef __LD32_H__
 #define __LD32_H__
+#pragma warning( disable : 4838 )
+
 
 /* implemented tables */
 #define PREFIX_T    1
@@ -233,4 +235,5 @@ BITMASK32(0,0,0,0,0,0,0,0, 1,1,1,0,0,0,0,0,  /* e */
 /* CHECK_MEM67 */
 #define CHECK_MEM67(v)  (((v)&0xfc)==0xa0)
 
+#pragma warning( default : 4838 )
 #endif

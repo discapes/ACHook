@@ -46,6 +46,13 @@ public:
 		cout << "Copy constructor\n";
 	}
 
+	Array& operator=(const Array<T> orig)
+	{
+		Array(orig, orig.size);
+		cout << "operator=\n";
+		return *this;
+	}
+
 	T& operator[] (int index) const
 	{
 		return arr[index];

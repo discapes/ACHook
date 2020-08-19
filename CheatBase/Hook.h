@@ -11,6 +11,8 @@ class Hook : public Patch
 	byte* gateway;
 public:
 
+	const byte* getGateway() { return gateway; }
+
 	Hook(byte* oFun, const byte* hkFun)
 		:
 		Patch(oFun, createJump(oFun, hkFun)),
@@ -24,12 +26,12 @@ public:
 
 private:
 	
-	void placeJump(const byte* from, const byte* to, byte* jump) {
+	void placeJump(byte* jump, const byte* to) {
 		jump[0] = 0xE9;
-		*(uintptr_t*)(jump + 1) = to - (from + 5);
+		*(uintptr_t*)(jump + 1) = to - (jump + 5);
 	}
 
-	Array<byte>& createJump(const byte* from, const byte* to)
+	Array<byte> createJump(const byte* from, const byte* to)
 	{
 		Array<byte> jump(5);
 		jump[0] = 0xE9;
@@ -50,7 +52,7 @@ private:
 		byte* gateway = (byte*)VirtualAlloc(NULL, len + 5, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 		if (gateway == 0) throw "Could not allocate memory for gateway";
 		memcpy(gateway, oFun, len);
-		placeJump(gateway, oFun, gateway + len);
+		placeJump(gateway + len, oFun + len);
 		return gateway;
 	}
 };

@@ -7,6 +7,7 @@
 #include <io.h>
 #include <fcntl.h>
 #include "Patch.h"
+#include "Hook.h"
 
 static BOOL WINAPI MyConsoleCtrlHandler(DWORD dwCtrlEvent) { return dwCtrlEvent == CTRL_C_EVENT; }
 
@@ -20,6 +21,8 @@ DWORD WINAPI mainThread(HMODULE hModule)
 
 	Patch infAmmo(ac_client + 0x637E9, Array<byte>(0x90, 2));
 
+	//Hook spinBot();
+
 	while (true)
 	{
 		if (GetAsyncKeyState(VK_INSERT) & 1)
@@ -30,6 +33,9 @@ DWORD WINAPI mainThread(HMODULE hModule)
 
 		if (GetAsyncKeyState(VK_HOME) & 1)
 			infAmmo.toggle();
+
+		if (GetAsyncKeyState(VK_PRIOR) & 1)
+			break;
 
 		if (GetAsyncKeyState(VK_END) & 1)
 			break;
