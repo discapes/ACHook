@@ -17,25 +17,21 @@
     <ClCompile Include="CheatBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ld32.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Console.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LDE\ld32.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ld32.h" />
     <ClInclude Include="Hook.h" />
     <ClInclude Include="def.h" />
-    <ClInclude Include="mem.h" />
-    <ClInclude Include="SDK.h" />
     <ClInclude Include="Console.h" />
-    <ClInclude Include="geom.h" />
     <ClInclude Include="Patch.h" />
-    <ClInclude Include="Array.h" />
+    <ClInclude Include="SmartArray.h" />
+    <ClInclude Include="LDE\ld32.h" />
+    <ClInclude Include="AC\geom.h" />
+    <ClInclude Include="AC\SDK.h" />
   </ItemGroup>
 </Project>

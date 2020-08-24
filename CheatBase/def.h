@@ -1,24 +1,24 @@
 #pragma once
 #include <cstdint>
-#include <iostream>
-#include <initializer_list>
-#include "Array.h"
 #define loop(v,m) for(int v = 0; v<int(m); v++)
 #define loopi(m) loop(i,m)
 #define loopj(m) loop(j,m)
 #define loopk(m) loop(k,m)
 #define loopl(m) loop(l,m)
-using std::cout;
-using std::endl;
+#define static(f) { static const void* dummy = []() { f; return nullptr;  }(); }
+#define once(f) { static bool first = true; if (first) { f first = false; } }
+#define ifPressed(k) if (GetAsyncKeyState(k) & 1)
+#define prt(x) std::cout << x << '\n'
 
 typedef unsigned int uint;
 typedef uint8_t byte;
 typedef uint32_t dword;
 typedef unsigned char uchar;
 
-inline void printAdr(std::string name, void* value) {
-	cout << name << ": 0x" << value << endl;
-}
+#define DBG
 
-#define printVar(name, value) cout << name << ": " << value << endl;
-#define isRet(oc) oc == 0xC3 || oc == 0xCB || oc == 0xC2 || oc == 0xCA
+#ifdef DBG
+#define dbg(x) x
+#else
+#define dbg(x)
+#endif

@@ -5,23 +5,47 @@
 #include "Patch.h"
 #include "ld32.h"
 
+#define isRet(oc) oc == 0xC3 || oc == 0xCB || oc == 0xC2 || oc == 0xCA
+
+template <typename T>
 class Hook : public Patch 
 {
 	byte* oFun;
-	byte* gateway;
+	T gateway;
+	int _counter = 0;
+
 public:
 
-	const byte* getGateway() { return gateway; }
+	int& counter()
+	{
+		return _counter;
+	}
 
 	Hook(byte* oFun, const byte* hkFun)
 		:
-		Patch(oFun, createJump(oFun, hkFun)),
-		gateway ( createGateway(oFun, patchSize) ) 
+		Patch(oFun, std::move(createJump(oFun, hkFun))),
+		gateway ( (T)createGateway(oFun, patchSize) ) 
 	{}
 	
+	Hook(T oFun, const T hkFun)
+		: 
+		Hook((byte*)oFun, (const byte*)hkFun)
+	{}
+
+	Hook(const wchar_t* modName, const char* procName, const T hkFun)
+		: Hook((byte*)GetProcAddress(GetModuleHandle(modName), procName), (byte*)hkFun)
+	{}
+
 	~Hook() {
-		cout << "~Hook()\n";
+		unPatch();
 		VirtualFree(gateway, 0, MEM_RELEASE);
+	}
+
+	template <typename... P>
+	std::invoke_result_t<T, P...> operator()(P&&... args)
+	{
+		_counter++;
+		return gateway(std::forward<P>(args)...);
 	}
 
 private:
@@ -31,9 +55,9 @@ private:
 		*(uintptr_t*)(jump + 1) = to - (jump + 5);
 	}
 
-	Array<byte> createJump(const byte* from, const byte* to)
+	SmartArray<byte> createJump(const byte* from, const byte* to)
 	{
-		Array<byte> jump(5);
+		SmartArray<byte> jump(5);
 		jump[0] = 0xE9;
 		*(uintptr_t*)(jump + 1) = to - (from + 5);
 		return jump;

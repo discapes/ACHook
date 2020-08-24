@@ -84,7 +84,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -99,7 +99,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -150,20 +150,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CheatBase.cpp" />
-    <ClCompile Include="ld32.c" />
-    <ClCompile Include="mem.cpp" />
+    <ClCompile Include="LDE\ld32.c" />
     <ClCompile Include="Console.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Array.h" />
+    <ClInclude Include="SmartArray.h" />
     <ClInclude Include="def.h" />
-    <ClInclude Include="ld32.h" />
-    <ClInclude Include="mem.h" />
+    <ClInclude Include="AC\geom.h" />
+    <ClInclude Include="LDE\ld32.h" />
     <ClInclude Include="Hook.h" />
     <ClInclude Include="Console.h" />
-    <ClInclude Include="geom.h" />
     <ClInclude Include="Patch.h" />
-    <ClInclude Include="SDK.h" />
+    <ClInclude Include="AC\SDK.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

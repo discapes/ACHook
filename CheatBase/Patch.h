@@ -1,8 +1,8 @@
 #pragma once
 #include <cstdint>
 #include <Windows.h>
-#include "def.h"
 #include "ld32.h"
+#include "SmartArray.h"
 
 class Patch
 {
@@ -10,29 +10,24 @@ class Patch
 	bool enabled;
 public:
 	const size_t patchSize;
-	const Array<byte> oBytes;
-	const Array<byte> nBytes;
+	const SmartArray<byte> oBytes;
+	const SmartArray<byte> nBytes;
 
-	Patch(byte* oFun, const Array<byte> newBytes)
+	Patch(byte* oFun, SmartArray<byte>&& nBytes)
 		:
 		enabled(false),
-		patchSize(newBytes.size),
-		oBytes(Array<byte>(oFun, patchSize)),
-		nBytes(newBytes),
+		patchSize(nBytes.size),
+		oBytes(std::move(SmartArray<byte>(oFun, patchSize))),
+		nBytes(std::move(nBytes)),
 		oFun(oFun)
 	{}
-
-	~Patch()
-	{
-		cout << "~Patch()\n";
-	}
 
 	void doPatch()
 	{
 		enabled = true;
 		DWORD oldProtect;
 		VirtualProtect(oFun, patchSize, PAGE_EXECUTE_READWRITE, &oldProtect);
-		memcpy(oFun, nBytes, patchSize);
+		memcpy(oFun, nBytes.data, patchSize);
 		VirtualProtect(oFun, patchSize, oldProtect, &oldProtect);
 	}
 
@@ -41,7 +36,7 @@ public:
 		enabled = false;
 		DWORD oldProtect;
 		VirtualProtect(oFun, patchSize, PAGE_EXECUTE_READWRITE, &oldProtect);
-		memcpy(oFun, oBytes, patchSize);
+		memcpy(oFun, oBytes.data, patchSize);
 		VirtualProtect(oFun, patchSize, oldProtect, &oldProtect);
 	}
 

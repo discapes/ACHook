@@ -1,59 +1,65 @@
 #include <iostream>
 #include <Windows.h>
-#include "SDK.h"
-#include "mem.h"
 #include "Console.h"
 #include "def.h"
-#include <io.h>
-#include <fcntl.h>
 #include "Patch.h"
 #include "Hook.h"
+#include "AC/SDK.h"
 
-static BOOL WINAPI MyConsoleCtrlHandler(DWORD dwCtrlEvent) { return dwCtrlEvent == CTRL_C_EVENT; }
+static Hook<int(__stdcall*)(HDC)>* pwglSwapBuffers;
+static HMODULE hModule;
 
-DWORD WINAPI mainThread(HMODULE hModule)
+int __stdcall hk_wglSwapBuffers(HDC hDC)
 {
-	Console::open();
-	byte* ac_client = (byte*)GetModuleHandle(L"ac_client.exe");
-	printAdr("ac_client", ac_client);
-	playerent* localPlayer = *(playerent**)(ac_client + 0x10F4F4);
-	printAdr("localPlayer", localPlayer);
+	static auto& wglSwapBuffers = *pwglSwapBuffers;
+	static byte* ac_client = (byte*)GetModuleHandle(L"ac_client.exe");
+	static playerent* localPlayer = *(playerent**)(ac_client + 0x10F4F4);
 
-	Patch infAmmo(ac_client + 0x637E9, Array<byte>(0x90, 2));
+	once(
+		Console::open();
+		prt("ac_client : " << (void*)ac_client);
+		prt("localPlayer : " << (void*)localPlayer);
+	)
 
-	//Hook spinBot();
+	ifPressed(VK_INSERT)
+		*localPlayer->weaponsel->mag = 1337;
 
-	while (true)
+	ifPressed(VK_DELETE)
+		localPlayer->health = 1337;
+
+	ifPressed(VK_HOME)
 	{
-		if (GetAsyncKeyState(VK_INSERT) & 1)
-			*localPlayer->weaponsel->mag = 1337;
-
-		if (GetAsyncKeyState(VK_DELETE) & 1)
-			localPlayer->health = 1337;
-
-		if (GetAsyncKeyState(VK_HOME) & 1)
-			infAmmo.toggle();
-
-		if (GetAsyncKeyState(VK_PRIOR) & 1)
-			break;
-
-		if (GetAsyncKeyState(VK_END) & 1)
-			break;
+		static Patch infAmmo(ac_client + 0x637E9, SmartArray<byte>( 0x90, 2 ));
+		infAmmo.toggle();
 	}
 
-	Console::close();
-	FreeLibraryAndExitThread(hModule, 0);
+	int ret = wglSwapBuffers(hDC);
+
+	ifPressed(VK_END)
+	{
+		Console::close();
+		delete pwglSwapBuffers;
+		FreeLibrary(hModule);
+	}
+
+	return ret;
+}
+
+DWORD WINAPI mainThread(HMODULE _hModule)
+{
+	pwglSwapBuffers = new Hook(L"opengl32.dll", "wglSwapBuffers", hk_wglSwapBuffers);
+	hModule = _hModule;
+	pwglSwapBuffers->toggle();
 	return 0;
 }
 
-
-BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
+BOOL APIENTRY DllMain(HMODULE _hModule, DWORD  ul_reason_for_call, LPVOID)
 {
 	switch (ul_reason_for_call)
 	{
 	case DLL_PROCESS_ATTACH:
 	{
-		HANDLE handle = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)mainThread, hModule, 0, nullptr);
+		HANDLE handle = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)mainThread, _hModule, 0, nullptr);
 		if (handle) CloseHandle(handle);
 		break;
 	}

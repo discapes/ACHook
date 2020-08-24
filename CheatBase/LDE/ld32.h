@@ -1,6 +1,6 @@
 #ifndef __LD32_H__
 #define __LD32_H__
-#pragma warning( disable : 4838 )
+#pragma warning( disable : 4838 4245 )
 
 
 /* implemented tables */

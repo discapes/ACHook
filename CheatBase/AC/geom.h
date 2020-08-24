@@ -8,7 +8,8 @@
 #include <corecrt_math.h>
 #include "def.h"
 
-#pragma warning( disable : 4244 )
+
+#pragma warning( disable : 4244 26495 4201 4458 )
 struct vec
 {
     union
