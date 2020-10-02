@@ -1,11 +1,12 @@
 #pragma once
 
 template <typename T>
-class SmartArray
+struct SmartArray
 {
-public:
 	T* data = nullptr;
 	size_t size = 0;
+
+	SmartArray() = default;
 
 	void swap(SmartArray<T>&& with)
 	{
@@ -33,13 +34,11 @@ public:
 
 	SmartArray(std::initializer_list<T> list)
 		: SmartArray(list.begin(), list.size())
-	{
-	}
+	{}
 
 	SmartArray(const SmartArray<T>& orig)
 		: SmartArray(orig.data, orig.size)
-	{
-	}
+	{}
 
 	SmartArray(SmartArray<T>&& orig) noexcept
 	{

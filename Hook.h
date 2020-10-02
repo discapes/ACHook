@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include "def.h"
 #include "Patch.h"
-#include "ld32.h"
+#include "LDE/ld32.h"
 
 #define isRet(oc) oc == 0xC3 || oc == 0xCB || oc == 0xC2 || oc == 0xCA
 

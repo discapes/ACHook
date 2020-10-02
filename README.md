@@ -1,2 +1,2 @@
-# CheatBase
-simple assaulcube hack base
+# ACHook
+Simple AssaultCube binary patching demo. For educational purposes only.

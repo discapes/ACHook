@@ -5,7 +5,6 @@
 #define loopj(m) loop(j,m)
 #define loopk(m) loop(k,m)
 #define loopl(m) loop(l,m)
-#define static(f) { static const void* dummy = []() { f; return nullptr;  }(); }
 #define once(f) { static bool first = true; if (first) { f first = false; } }
 #define ifPressed(k) if (GetAsyncKeyState(k) & 1)
 #define prt(x) std::cout << x << '\n'
@@ -14,11 +13,3 @@ typedef unsigned int uint;
 typedef uint8_t byte;
 typedef uint32_t dword;
 typedef unsigned char uchar;
-
-#define DBG
-
-#ifdef DBG
-#define dbg(x) x
-#else
-#define dbg(x)
-#endif

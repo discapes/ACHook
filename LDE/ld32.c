@@ -1,5 +1,7 @@
 #include "ld32.h"
 
+#pragma warning( disable : 4244 )
+
 /* length_disasm */
 unsigned int length_disasm(const void* opcode0) {
 

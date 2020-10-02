@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <Windows.h>
-#include "ld32.h"
+#include "LDE/ld32.h"
 #include "SmartArray.h"
 
 class Patch
